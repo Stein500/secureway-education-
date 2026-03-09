@@ -11,45 +11,35 @@ export function Header() {
     <motion.header
       className="sticky top-0 z-50"
       style={{
-        background: 'rgba(250,250,248,0.96)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: '1px solid rgba(243,55,145,0.07)',
-        boxShadow: '0 1px 0 rgba(0,0,0,0.04)',
+        background: 'rgba(248,247,244,0.94)',
+        backdropFilter: 'blur(14px)',
+        WebkitBackdropFilter: 'blur(14px)',
+        borderBottom: '1px solid rgba(12,12,11,0.07)',
+        boxShadow: '0 1px 0 rgba(12,12,11,0.04)',
       }}
-      initial={{ y: -80 }}
+      initial={{ y: -72 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="max-w-6xl mx-auto px-4 py-2.5">
+      {/* Top accent line */}
+      <div className="absolute top-0 left-0 right-0 h-[2px]"
+        style={{ background: 'linear-gradient(90deg, #F33791 0%, #FF9DCB 35%, #336907 65%, #80C840 100%)' }} />
+
+      <div className="max-w-2xl mx-auto px-4 py-2.5">
         <div className="flex items-center justify-between">
 
-          {/* Logo */}
-          <motion.div className="flex items-center gap-3" whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}>
-            <div className="relative">
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center overflow-hidden"
-                style={{
-                  background: '#FFFFFF',
-                  boxShadow: '0 2px 8px rgba(243,55,145,0.12), 0 0 0 1px rgba(243,55,145,0.08)',
-                }}
-              >
-                <img
-                  src="/logo.png"
-                  alt="Les Bulles de Joie"
-                  className="w-7 h-7 object-contain"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                    (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
-                  }}
-                />
-                <span className="hidden text-xl">🎈</span>
+          {/* Logo wordmark */}
+          <motion.div className="flex items-center gap-2.5" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+            <div className="relative flex-shrink-0">
+              <div className="w-9 h-9 rounded-[11px] flex items-center justify-center overflow-hidden"
+                style={{ background: '#FFFFFF', boxShadow: '0 2px 7px rgba(243,55,145,0.14), 0 0 0 1px rgba(243,55,145,0.09)' }}>
+                <img src="/logo.png" alt="Les Bulles de Joie" className="w-7 h-7 object-contain"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
               </div>
               <motion.div
-                className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-md flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #336907, #4CAF20)', boxShadow: '0 1px 4px rgba(51,105,7,0.4)' }}
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 2.5, repeat: Infinity }}
+                className="absolute -bottom-0.5 -right-0.5 w-[14px] h-[14px] rounded-[5px] flex items-center justify-center"
+                style={{ background: 'linear-gradient(135deg, #336907, #5CB830)', boxShadow: '0 1px 4px rgba(51,105,7,0.4)' }}
+                animate={{ scale: [1, 1.12, 1] }} transition={{ duration: 2.8, repeat: Infinity }}
               >
                 <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
@@ -58,69 +48,69 @@ export function Header() {
             </div>
 
             <div>
-              <h1 className="text-sm sm:text-base font-bold leading-tight" style={{ fontFamily: 'Sora, sans-serif', letterSpacing: '-0.02em' }}>
+              <p className="leading-none mb-0.5" style={{ fontFamily: 'Bricolage Grotesque, sans-serif', fontWeight: 800, fontSize: 15, letterSpacing: '-0.02em' }}>
                 <span style={{ color: '#F33791' }}>Les Bulles</span>{' '}
                 <span style={{ color: '#336907' }}>de Joie</span>
-              </h1>
-              <p className="text-[10px] hidden sm:block" style={{ color: '#A3A7A1', fontFamily: 'DM Sans, sans-serif', letterSpacing: '0.06em' }}>RÉSULTATS SÉCURISÉS</p>
+              </p>
+              <p className="hidden sm:block" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 500, fontSize: 10, color: '#7A7A74', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Résultats Sécurisés
+              </p>
             </div>
           </motion.div>
 
-          {/* Center pill — connected student */}
+          {/* Connected student name */}
           {isAuthenticated && student && (
             <motion.div
               className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full"
-              style={{
-                background: 'rgba(51,105,7,0.07)',
-                border: '1px solid rgba(51,105,7,0.12)',
-              }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
+              style={{ background: 'rgba(51,105,7,0.07)', border: '1px solid rgba(51,105,7,0.12)' }}
+              initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 }}
             >
-              <motion.div className="w-1.5 h-1.5 bg-[#336907] rounded-full" animate={{ opacity: [1, 0.4, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
-              <span className="text-xs text-[#336907] font-semibold" style={{ fontFamily: 'DM Sans, sans-serif' }}>{student.fullName}</span>
+              <motion.div className="w-1.5 h-1.5 rounded-full" style={{ background: '#336907' }}
+                animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.6, repeat: Infinity }} />
+              <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 600, fontSize: 12, color: '#336907' }}>
+                {student.fullName}
+              </span>
             </motion.div>
           )}
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
-
             {/* Font toggle */}
             <motion.button
               onClick={toggleFontStyle}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full transition-all"
-              style={{
-                background: 'rgba(51,105,7,0.07)',
-                border: '1px solid rgba(51,105,7,0.12)',
-              }}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full transition-base"
+              style={{ background: 'rgba(51,105,7,0.06)', border: '1px solid rgba(51,105,7,0.11)' }}
+              whileHover={{ scale: 1.05, background: 'rgba(51,105,7,0.1)' }}
+              whileTap={{ scale: 0.94 }}
+              title="Changer le style de police"
             >
-              <span className="text-sm">{fontStyle === 'script' ? '✏️' : '🖋️'}</span>
-              <div
-                className="w-7 h-3.5 rounded-full relative"
-                style={{ background: 'rgba(51,105,7,0.2)', padding: '2px' }}
-              >
+              <span style={{ fontSize: 14 }}>{fontStyle === 'script' ? '✏️' : '🖋️'}</span>
+              {/* Toggle pill */}
+              <div className="w-7 h-3.5 rounded-full relative"
+                style={{ background: 'rgba(51,105,7,0.18)' }}>
                 <motion.div
-                  className="w-2.5 h-2.5 bg-[#336907] rounded-full absolute top-0.5"
+                  className="absolute top-0.5 w-2.5 h-2.5 rounded-full"
+                  style={{ background: '#336907' }}
                   animate={{ left: fontStyle === 'script' ? 2 : 14 }}
-                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                  transition={{ type: 'spring', stiffness: 600, damping: 35 }}
                 />
               </div>
             </motion.button>
 
             <PWAInstallButtonCompact />
 
-            {/* School year badge */}
+            {/* Year badge */}
             <motion.div
               className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full"
-              style={{
-                background: 'rgba(243,55,145,0.07)',
-                border: '1px solid rgba(243,55,145,0.12)',
-              }}
+              style={{ background: 'rgba(243,55,145,0.07)', border: '1px solid rgba(243,55,145,0.11)' }}
+              whileHover={{ scale: 1.04 }}
             >
-              <motion.div className="w-1.5 h-1.5 rounded-full bg-[#F33791]" animate={{ scale: [1, 1.4, 1] }} transition={{ duration: 1.8, repeat: Infinity }} />
-              <span className="text-xs font-semibold text-[#F33791]" style={{ fontFamily: 'Sora, sans-serif' }}>2025-2026</span>
+              <motion.div className="w-1.5 h-1.5 rounded-full" style={{ background: '#F33791' }}
+                animate={{ scale: [1, 1.5, 1] }} transition={{ duration: 2, repeat: Infinity }} />
+              <span style={{ fontFamily: 'Bricolage Grotesque, sans-serif', fontWeight: 700, fontSize: 11, color: '#F33791' }}>
+                2025-2026
+              </span>
             </motion.div>
           </div>
         </div>
