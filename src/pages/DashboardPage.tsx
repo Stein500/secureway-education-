@@ -259,7 +259,11 @@ const InfoCard = ({ icon, label, value, color, delay }: {
 };
 
 /* ─── Stats bar ──────────────────────────────────────────── */
-const StatsBar = ({ groups }: { groups: TrimestreGroup[] }) => {
+const StatsBar = ({ groups, onDownloadAll, isDownloading }: {
+  groups: TrimestreGroup[];
+  onDownloadAll: () => void;
+  isDownloading: boolean;
+}) => {
   const total = groups.reduce((s, g) => s + g.docs.length, 0);
   const avail = groups.reduce((s, g) => s + g.docs.filter(d => d.available).length, 0);
   const pct = total > 0 ? Math.round((avail / total) * 100) : 0;
@@ -288,6 +292,39 @@ const StatsBar = ({ groups }: { groups: TrimestreGroup[] }) => {
           <span style={{ fontFamily: 'Bricolage Grotesque, sans-serif', fontWeight: 800, fontSize: 15, color: '#F33791' }}>{pct}%</span>
         </div>
       </div>
+
+      {/* Download all button */}
+      {avail > 0 && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
+          transition={{ delay: 0.7, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          style={{ overflow: 'hidden' }}
+        >
+          <div style={{ height: 1, background: 'rgba(12,12,11,0.06)', margin: '12px 0 10px' }} />
+          <motion.button
+            onClick={onDownloadAll}
+            disabled={isDownloading}
+            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-[12px] disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{
+              background: 'linear-gradient(135deg, rgba(243,55,145,0.07), rgba(224,107,32,0.05), rgba(51,105,7,0.07))',
+              border: '1px solid rgba(243,55,145,0.15)',
+            }}
+            whileHover={!isDownloading ? { scale: 1.01, background: 'linear-gradient(135deg, rgba(243,55,145,0.12), rgba(224,107,32,0.08), rgba(51,105,7,0.1))' } : {}}
+            whileTap={!isDownloading ? { scale: 0.98 } : {}}
+          >
+            {isDownloading ? (
+              <div className="w-3.5 h-3.5 rounded-full border-2 border-[#F33791]/30 border-t-[#F33791] animate-spin" />
+            ) : (
+              <svg className="w-3.5 h-3.5" style={{ color: '#F33791' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+            )}
+            <span style={{ fontFamily: 'Bricolage Grotesque, sans-serif', fontWeight: 700, fontSize: 13, color: '#F33791' }}>
+              {isDownloading ? 'Téléchargement en cours…' : `Télécharger tous les bulletins disponibles (${avail})`}
+            </span>
+          </motion.button>
+        </motion.div>
+      )}
     </motion.div>
   );
 };
@@ -337,7 +374,9 @@ export function DashboardPage() {
   }, [student]);
 
   useEffect(() => {
-    if ('Notification' in window) setNotifEnabled(Notification.permission === 'granted');
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      setNotifEnabled(Notification.permission === 'granted');
+    }
   }, []);
 
   const handleToggle = useCallback((t: number) =>
@@ -365,6 +404,50 @@ export function DashboardPage() {
     if (ok) toast.success('Notifications activées !');
     else toast.error('Notifications refusées');
   };
+
+  // ── Session expiry warning ──────────────────────────────
+  const [sessionMinutes, setSessionMinutes] = useState<number | null>(null);
+  useEffect(() => {
+    const check = () => {
+      try {
+        const s = sessionStorage.getItem('auth_session');
+        if (s) {
+          const { timestamp } = JSON.parse(s);
+          const remaining = Math.floor((3_600_000 - (Date.now() - timestamp)) / 60_000);
+          setSessionMinutes(Math.max(0, remaining));
+        }
+      } catch { /* ignore */ }
+    };
+    check();
+    const iv = setInterval(check, 30_000);
+    return () => clearInterval(iv);
+  }, []);
+
+  // ── Download all available bulletins sequentially ───────
+  const [dlAllActive, setDlAllActive] = useState(false);
+  const handleDownloadAll = useCallback(async () => {
+    if (!student || dlAllActive) return;
+    const availDocs = groups.flatMap(g => g.docs.filter(d => d.available));
+    if (!availDocs.length) return;
+    setDlAllActive(true);
+    toast.success(`Téléchargement de ${availDocs.length} bulletin${availDocs.length > 1 ? 's' : ''}…`);
+    try {
+      for (const doc of availDocs) {
+        await new Promise(r => setTimeout(r, 600));
+        const a = document.createElement('a');
+        a.href = `/bulletins/${doc.fileName}`;
+        a.download = `Bulletin_${student.id}_${student.fullName.replace(/\s+/g, '_')}_${doc.key}_2025-2026.pdf`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      }
+      toast.success('Tous les bulletins ont été téléchargés ! 🎉');
+    } finally { setDlAllActive(false); }
+  }, [student, groups, dlAllActive]);
+
+  // ── Expand / collapse all trimestres ────────────────────
+  const allExpanded = groups.length > 0 && groups.every(g => g.expanded);
+  const toggleAll = useCallback(() => {
+    setGroups(prev => prev.map(g => ({ ...g, expanded: !allExpanded })));
+  }, [allExpanded]);
 
   if (!student) return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-3 hero-gradient">
@@ -421,7 +504,7 @@ export function DashboardPage() {
           </motion.div>
 
           {/* ── Notif banner ── */}
-          {!notifEnabled && 'Notification' in window && (
+          {!notifEnabled && typeof window !== 'undefined' && 'Notification' in window && (
             <motion.button onClick={handleNotif} {...fadeUp(0.22)}
               className="w-full p-3.5 rounded-[18px] flex items-center justify-center gap-3 transition-base"
               style={{ background: 'rgba(232,160,32,0.08)', border: '1px solid rgba(232,160,32,0.22)' }}
@@ -492,20 +575,69 @@ export function DashboardPage() {
           </motion.div>
 
           {/* ── Stats bar ── */}
-          {groups.length > 0 && <StatsBar groups={groups} />}
+          {groups.length > 0 && <StatsBar groups={groups} onDownloadAll={handleDownloadAll} isDownloading={dlAllActive} />}
+
+          {/* ── Session expiry warning ── */}
+          {sessionMinutes !== null && sessionMinutes <= 10 && (
+            <motion.div
+              className="flex items-center gap-3 px-4 py-3 rounded-[16px]"
+              style={{ background: 'rgba(232,160,32,0.09)', border: '1px solid rgba(232,160,32,0.25)' }}
+              initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ ease: [0.16, 1, 0.3, 1] }}
+            >
+              <motion.span style={{ fontSize: 18 }}
+                animate={{ rotate: [0, -15, 15, 0] }} transition={{ duration: 1.4, repeat: Infinity, repeatDelay: 2 }}>
+                ⏳
+              </motion.span>
+              <div className="flex-1">
+                <p style={{ fontFamily: 'Bricolage Grotesque, sans-serif', fontWeight: 700, fontSize: 13, color: '#8B5E00' }}>
+                  Session expire dans {sessionMinutes} minute{sessionMinutes > 1 ? 's' : ''}
+                </p>
+                <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 11, color: '#A07828' }}>
+                  Veuillez vous reconnecter pour continuer
+                </p>
+              </div>
+              <motion.button
+                onClick={logout}
+                className="px-3 py-1.5 rounded-[10px]"
+                style={{ background: 'rgba(232,160,32,0.18)', fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 600, fontSize: 12, color: '#8B5E00' }}
+                whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
+              >
+                Reconnecter
+              </motion.button>
+            </motion.div>
+          )}
 
           {/* ── Section title ── */}
-          <motion.div className="flex items-center gap-3 pt-1" {...fadeUp(0.48)}>
-            <div className="w-8 h-8 rounded-[11px] flex items-center justify-center"
-              style={{ background: 'rgba(243,55,145,0.09)', border: '1px solid rgba(243,55,145,0.13)', color: '#F33791' }}>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
+          <motion.div className="flex items-center justify-between pt-1" {...fadeUp(0.48)}>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-[11px] flex items-center justify-center"
+                style={{ background: 'rgba(243,55,145,0.09)', border: '1px solid rgba(243,55,145,0.13)', color: '#F33791' }}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <div>
+                <h2 style={{ fontFamily: 'Bricolage Grotesque, sans-serif', fontWeight: 700, fontSize: 15, color: '#0C0C0B' }}>Bulletins scolaires</h2>
+                <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 12, color: '#7A7A74' }}>2 devoirs par trimestre · Cliquez pour déplier</p>
+              </div>
             </div>
-            <div>
-              <h2 style={{ fontFamily: 'Bricolage Grotesque, sans-serif', fontWeight: 700, fontSize: 15, color: '#0C0C0B' }}>Bulletins scolaires</h2>
-              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 12, color: '#7A7A74' }}>2 devoirs par trimestre · Cliquez pour déplier</p>
-            </div>
+            {/* Expand / collapse all */}
+            {groups.length > 0 && (
+              <motion.button
+                onClick={toggleAll}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] transition-base"
+                style={{ background: 'rgba(12,12,11,0.04)', border: '1px solid rgba(12,12,11,0.08)', fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 600, fontSize: 11, color: '#7A7A74' }}
+                whileHover={{ scale: 1.04, color: '#F33791', background: 'rgba(243,55,145,0.06)', borderColor: 'rgba(243,55,145,0.15)' }}
+                whileTap={{ scale: 0.96 }}
+              >
+                <motion.svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  animate={{ rotate: allExpanded ? 180 : 0 }} transition={{ duration: 0.3 }}>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </motion.svg>
+                {allExpanded ? 'Tout replier' : 'Tout déplier'}
+              </motion.button>
+            )}
           </motion.div>
 
           {/* ── Trimestre cards ── */}

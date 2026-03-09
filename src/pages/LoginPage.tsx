@@ -348,6 +348,42 @@ export function LoginPage() {
                 </AnimatePresence>
               </div>
 
+              {/* Blocked state banner */}
+              <AnimatePresence>
+                {isBlocked && (
+                  <motion.div
+                    className="mb-5 rounded-[16px] overflow-hidden"
+                    style={{ background: 'rgba(232,160,32,0.07)', border: '1px solid rgba(232,160,32,0.25)' }}
+                    initial={{ opacity: 0, y: -8, height: 0 }}
+                    animate={{ opacity: 1, y: 0, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <div className="px-4 py-3">
+                      <div className="flex items-center gap-2.5 mb-2">
+                        <motion.span style={{ fontSize: 16 }}
+                          animate={{ rotate: [0, -12, 12, 0] }} transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 1.5 }}>
+                          🔒
+                        </motion.span>
+                        <p style={{ fontFamily: 'Bricolage Grotesque, sans-serif', fontWeight: 700, fontSize: 13, color: '#8B5E00' }}>
+                          Trop de tentatives — réessayez dans{' '}
+                          <span style={{ color: '#E06B20', fontSize: 15 }}>{blockTimer}s</span>
+                        </p>
+                      </div>
+                      {/* Progress bar draining */}
+                      <div style={{ height: 4, background: 'rgba(232,160,32,0.2)', borderRadius: 2, overflow: 'hidden' }}>
+                        <motion.div
+                          style={{ height: '100%', background: 'linear-gradient(90deg, #E8A020, #E06B20)', borderRadius: 2, willChange: 'width' }}
+                          initial={{ width: '100%' }}
+                          animate={{ width: `${(blockTimer / 30) * 100}%` }}
+                          transition={{ duration: 0.9, ease: 'linear' }}
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               {/* Submit */}
               <motion.button
                 type="submit" disabled={isLoading || isBlocked}

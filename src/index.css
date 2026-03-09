@@ -102,6 +102,39 @@ input[type="number"] {
   letter-spacing: 0.01em;
 }
 
+/* ─── Smooth font switch (avoid FOUC) ─── */
+body, body * {
+  transition: font-family 0s !important; /* instant switch, no tween */
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PRINT STYLES
+   ═══════════════════════════════════════════════════════════ */
+@media print {
+  /* Hide interactive / decorative elements */
+  header, footer, button, .dot-grid,
+  [class*="orb"], [class*="bubble"],
+  [class*="animate"], [class*="confetti"],
+  nav, .pwa-install-btn { display: none !important; }
+
+  body { background: #fff !important; color: #000 !important; }
+
+  .card, .card-premium {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    break-inside: avoid;
+  }
+
+  /* Force expand all trimestre panels when printing */
+  [data-print-show] { display: block !important; height: auto !important; opacity: 1 !important; }
+
+  h1, h2, h3 { color: #000 !important; }
+
+  a { color: #000 !important; text-decoration: underline; }
+
+  @page { margin: 1.5cm; }
+}
+
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }

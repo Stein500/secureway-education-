@@ -83,7 +83,7 @@ export function Header() {
               style={{ background: 'rgba(51,105,7,0.06)', border: '1px solid rgba(51,105,7,0.11)' }}
               whileHover={{ scale: 1.05, background: 'rgba(51,105,7,0.1)' }}
               whileTap={{ scale: 0.94 }}
-              title="Changer le style de police"
+              title={fontStyle === 'script' ? 'Passer en écriture cursive' : 'Passer en écriture normale'}
             >
               <span style={{ fontSize: 14 }}>{fontStyle === 'script' ? '✏️' : '🖋️'}</span>
               {/* Toggle pill */}
@@ -96,6 +96,10 @@ export function Header() {
                   transition={{ type: 'spring', stiffness: 600, damping: 35 }}
                 />
               </div>
+              {/* Mode label */}
+              <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 600, fontSize: 10, color: '#336907', letterSpacing: '0.03em' }}>
+                {fontStyle === 'cursive' ? 'Cursive' : 'Normal'}
+              </span>
             </motion.button>
 
             <PWAInstallButtonCompact />
