@@ -10,9 +10,9 @@ import toast from 'react-hot-toast';
 const Orb = ({ size, x, y, color, delay }: { size: number; x: string; y: string; color: string; delay: number }) => (
   <motion.div
     className="absolute rounded-full pointer-events-none"
-    style={{ width: size, height: size, left: x, top: y, background: color, filter: 'blur(60px)' }}
-    animate={{ scale: [1, 1.2, 1], x: [0, 20, -10, 0], y: [0, -15, 10, 0] }}
-    transition={{ duration: 14 + delay * 2, repeat: Infinity, ease: 'easeInOut', delay }}
+    style={{ width: size, height: size, left: x, top: y, background: color, willChange: 'transform' }}
+    animate={{ scale: [1, 1.15, 1] }}
+    transition={{ duration: 16 + delay * 2, repeat: Infinity, ease: 'easeInOut', delay }}
   />
 );
 
@@ -162,7 +162,7 @@ export function LoginPage() {
                 >
                   <div
                     className="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center relative overflow-hidden"
-                    style={{ background: 'rgba(255,255,255,0.15)', border: '1.5px solid rgba(255,255,255,0.3)', backdropFilter: 'blur(8px)' }}
+                    style={{ background: '#FFFFFF', border: '1.5px solid rgba(255,255,255,0.4)', boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}
                   >
                     <img src="/logo.png" alt="Les Bulles de Joie" className="w-14 h-14 object-contain relative z-10"
                       onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden'); }} />

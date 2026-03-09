@@ -98,15 +98,15 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
         {/* Animated background orbs */}
         <motion.div
           className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(243,55,145,0.12) 0%, transparent 70%)', top: '-10%', left: '-10%' }}
-          animate={{ scale: [1, 1.2, 1], x: [0, 20, 0], y: [0, -20, 0] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ background: 'radial-gradient(circle, rgba(243,55,145,0.1) 0%, transparent 65%)', top: '-10%', left: '-10%', willChange: 'transform' }}
+          animate={{ scale: [1, 1.15, 1] }}
+          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
           className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(51,105,7,0.10) 0%, transparent 70%)', bottom: '-5%', right: '-5%' }}
-          animate={{ scale: [1, 1.15, 1], x: [0, -15, 0], y: [0, 15, 0] }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+          style={{ background: 'radial-gradient(circle, rgba(51,105,7,0.08) 0%, transparent 65%)', bottom: '-5%', right: '-5%', willChange: 'transform' }}
+          animate={{ scale: [1, 1.12, 1] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
         />
 
         {/* Floating dots */}
@@ -128,22 +128,22 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
             <motion.div
               className="absolute w-40 h-40 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(243,55,145,0.25) 0%, transparent 70%)', filter: 'blur(20px)' }}
-              animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0.9, 0.5] }}
-              transition={{ duration: 3, repeat: Infinity }}
+              style={{ background: 'radial-gradient(circle, rgba(243,55,145,0.2) 0%, transparent 70%)', willChange: 'transform, opacity' }}
+              animate={{ scale: [1, 1.25, 1], opacity: [0.5, 0.85, 0.5] }}
+              transition={{ duration: 3.5, repeat: Infinity }}
             />
 
             <motion.div
-              className="relative w-32 h-32 rounded-[2rem] bg-white flex items-center justify-center"
+              className="relative w-32 h-32 rounded-[2rem] flex items-center justify-center"
               style={{
-                boxShadow: '0 0 0 1px rgba(243,55,145,0.15), 0 8px 32px rgba(243,55,145,0.2), 0 24px 64px rgba(0,0,0,0.08)',
+                background: '#FFFFFF',
+                boxShadow: '0 0 0 1px rgba(243,55,145,0.12), 0 8px 32px rgba(243,55,145,0.18), 0 20px 56px rgba(0,0,0,0.07)',
+                willChange: 'transform',
               }}
               initial={{ scale: 0, rotate: -20, opacity: 0 }}
               animate={{ scale: 1, rotate: 0, opacity: 1 }}
               transition={{ type: 'spring', stiffness: 200, damping: 18, delay: 0.2 }}
             >
-              <div className="absolute inset-0 rounded-[2rem] opacity-40"
-                style={{ background: 'radial-gradient(circle at 30% 30%, rgba(243,55,145,0.08) 0%, transparent 60%)' }} />
 
               <motion.img
                 src="/logo.png"
@@ -198,9 +198,8 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
           <motion.div
             className="flex items-center gap-3 px-5 py-3 rounded-full mb-10"
             style={{
-              background: 'rgba(255,255,255,0.9)',
+              background: 'rgba(255,255,255,0.96)',
               boxShadow: '0 2px 16px rgba(0,0,0,0.06), 0 0 0 1px rgba(243,55,145,0.1)',
-              backdropFilter: 'blur(12px)',
             }}
             initial={{ opacity: 0, scale: 0.8, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}

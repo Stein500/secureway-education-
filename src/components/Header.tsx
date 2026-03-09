@@ -11,11 +11,11 @@ export function Header() {
     <motion.header
       className="sticky top-0 z-50"
       style={{
-        background: 'rgba(250,250,248,0.85)',
-        backdropFilter: 'blur(20px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-        borderBottom: '1px solid rgba(243,55,145,0.08)',
-        boxShadow: '0 1px 0 rgba(0,0,0,0.04), 0 4px 24px rgba(0,0,0,0.04)',
+        background: 'rgba(250,250,248,0.96)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: '1px solid rgba(243,55,145,0.07)',
+        boxShadow: '0 1px 0 rgba(0,0,0,0.04)',
       }}
       initial={{ y: -80 }}
       animate={{ y: 0 }}
@@ -30,8 +30,8 @@ export function Header() {
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center overflow-hidden"
                 style={{
-                  background: 'white',
-                  boxShadow: '0 2px 8px rgba(243,55,145,0.15), 0 0 0 1px rgba(243,55,145,0.1)',
+                  background: '#FFFFFF',
+                  boxShadow: '0 2px 8px rgba(243,55,145,0.12), 0 0 0 1px rgba(243,55,145,0.08)',
                 }}
               >
                 <img

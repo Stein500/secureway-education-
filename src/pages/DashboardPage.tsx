@@ -376,9 +376,9 @@ export function DashboardPage() {
       {/* Background orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full orb-1"
-          style={{ background: 'radial-gradient(circle, rgba(243,55,145,0.06) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(243,55,145,0.07) 0%, transparent 65%)', willChange: 'transform' }} />
         <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full orb-2"
-          style={{ background: 'radial-gradient(circle, rgba(51,105,7,0.06) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(51,105,7,0.07) 0%, transparent 65%)', willChange: 'transform' }} />
         {/* Subtle grid */}
         <div className="absolute inset-0 opacity-[0.012]"
           style={{
@@ -448,14 +448,14 @@ export function DashboardPage() {
             >
               {/* Decorative glows */}
               <div className="absolute top-0 right-0 w-40 h-40 rounded-full pointer-events-none"
-                style={{ background: 'radial-gradient(circle, rgba(243,55,145,0.15) 0%, transparent 70%)', filter: 'blur(30px)', transform: 'translate(30%, -30%)' }} />
+                style={{ background: 'radial-gradient(circle, rgba(243,55,145,0.18) 0%, transparent 65%)', transform: 'translate(30%, -30%)' }} />
               <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full pointer-events-none"
-                style={{ background: 'radial-gradient(circle, rgba(51,105,7,0.2) 0%, transparent 70%)', filter: 'blur(25px)', transform: 'translate(-30%, 30%)' }} />
+                style={{ background: 'radial-gradient(circle, rgba(51,105,7,0.22) 0%, transparent 65%)', transform: 'translate(-30%, 30%)' }} />
 
               <div className="flex items-center gap-4 relative z-10">
                 <motion.div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl flex-shrink-0"
-                  style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)' }}
+                  style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.14)' }}
                   whileHover={{ scale: 1.08, rotate: 5 }} whileTap={{ scale: 0.95 }}
                 >
                   <span className="text-3xl">{student.gender === 'F' ? '👩‍🎓' : '👨‍🎓'}</span>
@@ -467,7 +467,6 @@ export function DashboardPage() {
                   <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                     <span className="px-2.5 py-0.5 text-xs font-bold rounded-full text-white"
                       style={{ background: 'linear-gradient(135deg, #F33791, #C01865)' }}>{student.classe}</span>
-                    <span className="text-white/40 text-xs font-mono">{student.id}</span>
                   </div>
                 </div>
                 <motion.div

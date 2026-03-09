@@ -146,15 +146,14 @@ h1, h2, h3, h4, h5, h6 {
   z-index: -1;
 }
 
-/* Floating orbs */
+/* Floating orbs — scale only for GPU compositing */
 @keyframes orb-float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(20px, -30px) scale(1.05); }
-  66% { transform: translate(-15px, 20px) scale(0.95); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
 }
-.orb-1 { animation: orb-float 18s ease-in-out infinite; }
-.orb-2 { animation: orb-float 22s ease-in-out infinite reverse; animation-delay: -7s; }
-.orb-3 { animation: orb-float 26s ease-in-out infinite; animation-delay: -12s; }
+.orb-1 { animation: orb-float 18s ease-in-out infinite; will-change: transform; }
+.orb-2 { animation: orb-float 22s ease-in-out infinite; animation-delay: -7s; will-change: transform; }
+.orb-3 { animation: orb-float 26s ease-in-out infinite; animation-delay: -12s; will-change: transform; }
 
 
 /* Performance optimizations */
@@ -162,12 +161,16 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* GPU acceleration for animations */
+/* GPU acceleration */
 .gpu-accelerated {
   transform: translateZ(0);
   will-change: transform, opacity;
   backface-visibility: hidden;
 }
+
+/* Reduce paint budget */
+.animate-spin { will-change: transform; }
+main { contain: content; }
 
 /* Smooth animations */
 @keyframes wave-slow {
