@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F33791;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6B9D;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="lockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#336907;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4a8f0a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="96" cy="96" r="90" fill="url(#bgGrad)" />
+  
+  <!-- White inner circle -->
+  <circle cx="96" cy="85" r="55" fill="white" />
+  
+  <!-- Balloon emoji (simplified) -->
+  <ellipse cx="96" cy="70" rx="32" ry="38" fill="#FF6B9D" />
+  <ellipse cx="88" cy="58" rx="8" ry="12" fill="white" opacity="0.4" />
+  <polygon points="96,108 90,115 102,115" fill="#FF6B9D" />
+  <path d="M96 115 Q98 125 96 135 Q94 145 98 150" stroke="#A3A7A1" stroke-width="2" fill="none" />
+  
+  <!-- Lock badge -->
+  <circle cx="140" cy="145" r="32" fill="url(#lockGrad)" />
+  <circle cx="140" cy="145" r="28" fill="url(#lockGrad)" stroke="white" stroke-width="3" />
+  
+  <!-- Lock icon -->
+  <rect x="126" y="142" width="28" height="20" rx="3" fill="white" />
+  <path d="M131 142 L131 136 C131 130 135 126 140 126 C145 126 149 130 149 136 L149 142" 
+        stroke="white" stroke-width="4" fill="none" stroke-linecap="round" />
+  <circle cx="140" cy="152" r="3" fill="#336907" />
+  <rect x="138" y="152" width="4" height="6" fill="#336907" />
+</svg>

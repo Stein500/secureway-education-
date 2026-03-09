@@ -1,0 +1,53 @@
+{
+  "name": "Les Bulles de Joie - Résultats Scolaires",
+  "short_name": "🎈🔒 Bulles",
+  "description": "Portail sécurisé de consultation des résultats scolaires - École Les Bulles de Joie, Parakou, Bénin",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FDFEFE",
+  "theme_color": "#F33791",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "fr-FR",
+  "categories": ["education", "productivity"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Connexion",
+      "short_name": "Connexion",
+      "description": "Accéder à la page de connexion",
+      "url": "/",
+      "icons": [{ "src": "/icon-192.svg", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [],
+  "handle_links": "preferred"
+}
