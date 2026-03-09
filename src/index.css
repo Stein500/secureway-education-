@@ -76,16 +76,22 @@ body.font-script h4, body.font-script h5, body.font-script h6 {
 }
 
 /* ─── Font mode: Cursive ─── */
-body.font-cursive { font-family: var(--font-cursive); font-size: 1.08em; }
+/* body.font-cursive * overrides ALL inline fontFamily style={} props in React */
+body.font-cursive { font-family: var(--font-cursive) !important; font-size: 1.08em; }
+body.font-cursive * {
+  font-family: var(--font-cursive) !important;
+}
 body.font-cursive h1, body.font-cursive h2, body.font-cursive h3,
 body.font-cursive h4, body.font-cursive h5, body.font-cursive h6 {
-  font-family: var(--font-pacifico);
-  font-weight: 400;
-  letter-spacing: 0.01em;
+  font-family: var(--font-pacifico) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.01em !important;
 }
+/* Keep form controls legible — must come after * rule */
 body.font-cursive input, body.font-cursive button,
 body.font-cursive select, body.font-cursive textarea {
   font-family: var(--font-body) !important;
+  font-size: 1rem !important;
 }
 
 /* ─── Input always legible ─── */

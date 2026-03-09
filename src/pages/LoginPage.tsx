@@ -8,6 +8,9 @@ import { requestNotificationPermission, notifyLoginSuccess } from '../utils/noti
 import toast from 'react-hot-toast';
 
 /* Smooth rising bubble */
+const safeWindowHeight = () =>
+  typeof window !== 'undefined' ? window.innerHeight : 800;
+
 const Bubble = ({ x, size, delay, dur }: { x: number; size: number; delay: number; dur: number }) => (
   <motion.div
     className="absolute rounded-full pointer-events-none gpu"
@@ -18,7 +21,7 @@ const Bubble = ({ x, size, delay, dur }: { x: number; size: number; delay: numbe
       border: '1px solid rgba(243,55,145,0.1)',
       willChange: 'transform, opacity',
     }}
-    animate={{ y: [0, -(window.innerHeight + size * 2)], opacity: [0, 0.6, 0.5, 0] }}
+    animate={{ y: [0, -(safeWindowHeight() + size * 2)], opacity: [0, 0.6, 0.5, 0] }}
     transition={{ duration: dur, delay, repeat: Infinity, ease: 'linear' }}
   />
 );
@@ -257,7 +260,7 @@ export function LoginPage() {
                     type="text" value={identifier}
                     onChange={e => { setIdentifier(e.target.value.toUpperCase()); setErrors(p => ({ ...p, identifier: undefined })); }}
                     onFocus={() => setFocusedField('identifier')} onBlur={() => setFocusedField(null)}
-                    placeholder="Ex : CE1-001"
+                    placeholder="Entrez votre identifiant"
                     disabled={isBlocked}
                     className="input-field"
                     style={{ ...inputBorder('identifier'), transition: 'border-color 0.2s, box-shadow 0.2s, background 0.2s' }}
