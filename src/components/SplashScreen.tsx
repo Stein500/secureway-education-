@@ -279,13 +279,13 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
-              <motion.span 
-                className="text-6xl"
+              <motion.img
+                src="/logo.png"
+                alt="Les Bulles de Joie"
+                className="w-24 h-24 object-contain"
                 animate={{ rotate: [0, 5, -5, 0], scale: [1, 1.05, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
-              >
-                🎈
-              </motion.span>
+              />
               
               {/* Cadenas badge */}
               <motion.div 

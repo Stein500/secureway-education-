@@ -501,7 +501,7 @@ export function DashboardPage() {
                   <span className="text-3xl">{student.gender === 'F' ? '👩‍🎓' : '👨‍🎓'}</span>
                 </motion.div>
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-lg font-bold text-white truncate">{student.fullName}</h2>
+                  <h2 className="text-lg font-bold text-white leading-tight break-words">{student.fullName}</h2>
                   <div className="flex items-center gap-2 mt-1 flex-wrap">
                     <span className="px-2.5 py-0.5 bg-[#F33791] text-white text-xs font-bold rounded-full">{student.classe}</span>
                     <span className="text-white/50 text-xs font-mono">{student.id}</span>
